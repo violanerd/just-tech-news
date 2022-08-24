@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Comment } = require('../../models');
+const withAuth = require('../../utils/authguard');
 
 router.get('/', async (req, res) => {
     try {
@@ -10,7 +11,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', (req,res) => {
+router.post('/', withAuth, (req,res) => {
     if (req.session){
         Comment.create({
             comment_text: req.body.comment_text, 
@@ -24,7 +25,7 @@ router.post('/', (req,res) => {
         });
     }
 })
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
     try { const commentData = await Comment.destroy({
             where: {id: req.params.id}
         })
