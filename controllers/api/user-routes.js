@@ -58,6 +58,7 @@ router.post('/', (req, res) => {
         password: req.body.password
     })
         .then(dbUserData => {
+            //this is where we save the data on req.session!
             req.session.save(() => {
                 req.session.user_id = dbUserData.id;
                 req.session.username = dbUserData.username;
